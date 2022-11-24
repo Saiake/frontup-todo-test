@@ -1,11 +1,18 @@
 import { useState } from "react"
-
+import {addTodoDB} from "../../Firebase" 
 function ToDoForm({addOrEdit}) {
 
     const [isActive, setIsActive] = useState(false)
 
-    const saveToDo = () => {
-
+    const handleEntailmentRequest = (e) => {
+        e.preventDefault();
+        const todo = {
+            title:"fg",
+            description: "cc",
+            date: "57",
+            complete: false,
+        };
+        addTodoDB(todo)
     }
 
     return (
@@ -22,7 +29,7 @@ function ToDoForm({addOrEdit}) {
                     <input placeholder="Заголовок" type="text"/>
                     <textarea placeholder="Описание" type="text"/>
                     <input type="date"/>
-                    <button onClick="">Сохранить</button>
+                    <button onClick={(e) => handleEntailmentRequest(e)}>Сохранить</button>
                 </form>
             }
         </div>
