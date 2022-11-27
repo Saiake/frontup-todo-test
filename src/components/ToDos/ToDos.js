@@ -1,14 +1,6 @@
 import dayjs from 'dayjs'
-import {useEffect} from 'react'
-import {getTodosDB} from "../../Firebase" 
 
-function ToDos({toDo, setToDo}) {
-
-    useEffect(()=> {
-        getTodosDB().then(doc => {
-            setToDo(doc)
-        })
-    })
+function ToDos({toDo}) {
 
     return (
         <div>

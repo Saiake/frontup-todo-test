@@ -23,10 +23,10 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storage = getStorage();
 
-export const addTodoDB = async (todo) => 
-  await addDoc(collection(db, "Todo"), todo);
+export const addTodoDB = (todo) => 
+  addDoc(collection(db, "Todo"), todo);
 
-export const fileL = (path, files) => {
+export const addTodoFileDB = (path, files) => {
   console.log(files)
   Array.from(files).forEach(file => {
     const storageRef = ref(storage, path + "/" + file.name);

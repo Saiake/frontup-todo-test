@@ -1,26 +1,27 @@
 import {useState} from "react"
-import {addTodoDB} from "../../Firebase" 
+import {addTodoDB, addTodoFileDB} from "../../Firebase" 
+import dayjs from 'dayjs'
 
-
-function ToDoForm({addOrEdit}) {
+function ToDoForm({addOrEdit, TLength, setTLength}) {
 
     const [isActive, setIsActive] = useState(false)
-    const [inputs, setInputs] = useState({})
+    const [inputs, setInputs] = useState({date: dayjs().format('YYYY-MM-DDTHH:mm')})
 
     const handleEntailmentRequest = (e) => {
         e.preventDefault();
         const todo = {
-            title:"fg",
-            description: "cc",
-            date: "57",
+            title: inputs.title,
+            description: inputs.description,
+            date: inputs.date,
             completed: false,
         };
         addTodoDB(todo)
-        //fileL(inputs.title, inputs.files)
+        if (inputs.files)
+            addTodoFileDB(inputs.title, inputs.files)
+        setTLength(TLength + 1)
     }
 
     const handleInputChange = (e) => {
-        console.log(e.target.name)
         if (e.target.name == "files")
             setInputs({...inputs, [e.target.name]: e.target.files})
         else setInputs({...inputs, [e.target.name]: e.target.value})
@@ -41,8 +42,8 @@ function ToDoForm({addOrEdit}) {
                     onChange={(e) => handleInputChange(e)} value={inputs.title || ''} required/>
                     <textarea placeholder="Описание" type="text" name="description" 
                     onChange={(e) => handleInputChange(e)} value={inputs.description || ''} required/>
-                    <input type="date" name="date" 
-                    onChange={(e) => handleInputChange(e)} value={inputs.date || ''} required/>
+                    <input type="datetime-local" name="date" 
+                    onChange={(e) => handleInputChange(e)} value={inputs.date} required/>
                     <input type="file" name="files" 
                     onChange={(e) => handleInputChange(e)} files={inputs.files || ''}/>
                     <button type="submit">Сохранить</button>
