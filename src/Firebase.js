@@ -1,7 +1,7 @@
-import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
-import {getDocs, addDoc, doc, collection } from "firebase/firestore";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { initializeApp } from "firebase/app"
+import { getFirestore } from "firebase/firestore"
+import {getDocs, setDoc, doc, collection } from "firebase/firestore"
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -20,22 +20,36 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const storage = getStorage();
+const db = getFirestore(app)
+const storage = getStorage()
 
-export const addTodoDB = (todo) => 
-  addDoc(collection(db, "Todo"), todo);
+export const addTodoDB = async (todo) => 
+  await setDoc(doc(db, "Todo", todo.id), {title: todo.title,
+    description: todo.description,
+    date: todo.date,
+    completed: todo.completed,
+    files: todo.files
+  })
 
-export const addTodoFileDB = (path, files) => {
-  console.log(files)
+export const addTodoFilesDB = (path, files) => {
   Array.from(files).forEach(file => {
-    const storageRef = ref(storage, path + "/" + file.name);
+    const storageRef = ref(storage, path + "/" + file.name)
     uploadBytes(storageRef, file)
-  });
+  })
+}
+
+export const getTodoFilesDB = (path, files) => {
+  if (files)
+    files.forEach(file => {
+      getDownloadURL(ref(storage, path + "/" + file)).then((url) => {
+        const img = document.getElementById('img');
+        img.innerText += " " + url;
+      })
+    })
 }
 
 export const getTodosDB = async () => {
-  const querySnapshot = await getDocs(collection(db, "Todo"));
+  const querySnapshot = await getDocs(collection(db, "Todo"))
   let todos = []
   querySnapshot.forEach((doc) => {
     todos.push({
@@ -44,6 +58,7 @@ export const getTodosDB = async () => {
       description: doc.data().description,
       date: doc.data().date,
       completed: doc.data().completed,
+      files: doc.data().files
     })
   })
   return todos

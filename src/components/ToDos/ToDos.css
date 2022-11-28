@@ -1,0 +1,39 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.accordion {
+    min-width: 250px;
+    max-width: 600px;
+    margin: 0rem auto;
+    border: 1px solid #34750f;
+  }
+  
+.accordion-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    cursor: pointer;
+    background-color: #43ca21;
+    font-size: 20px;
+}
+  
+.accordion-title:hover {
+    background-color: #6fcc3a;
+}
+  
+.accordion-title,
+.accordion-content {
+    padding: 1rem;
+}
+  
+.accordion-content {
+    background-color: #58d239;
+}
+
+.description {
+    font-size: 15px;
+    color: rgb(117, 117, 117);
+}

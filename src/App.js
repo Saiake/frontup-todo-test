@@ -2,12 +2,11 @@ import {useState, useEffect} from "react"
 import ToDoForm from "./components/ToDoForm/ToDoForm"
 import ToDos from "./components/ToDos/ToDos"
 import {getTodosDB} from "./Firebase"
+import './App.css'
 
 function App() {
 
     const [toDo, setToDo] = useState([])
-
-    const [addOrEdit, setAddOEdit] = useState(true)
     
     const [TLength, setTLength] = useState(0)
 
@@ -21,8 +20,7 @@ function App() {
 
     return (
         <div className="App">
-            <ToDoForm addOrEdit={addOrEdit}
-                        TLength={TLength}
+            <ToDoForm TLength={TLength}
                         setTLength={setTLength}/>
             <ToDos toDo={toDo}
                     setToDo={setToDo}/>
