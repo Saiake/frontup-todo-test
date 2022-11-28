@@ -5,7 +5,14 @@ import './ToDos.css'
 
 function ToDos({toDo, setToDo, TLength, setTLength}) {
 
-
+    useEffect(()=> {
+        toDo.forEach(item => {
+            if (dayjs(item.date).diff(dayjs().format('YYYY-MM-DDTHH:mm')) > 0) {
+                closeToDo(item.id, item.completed)
+                item.completed = false
+            }
+        })
+    }, [])
 
     const [isActive, setIsActive] = useState('');
     
