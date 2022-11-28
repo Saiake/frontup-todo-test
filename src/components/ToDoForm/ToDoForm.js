@@ -15,20 +15,21 @@ function ToDoForm({TLength, setTLength}) {
     const handleEntailmentRequest = (e) => {
         e.preventDefault();
         let fileNames = []
-        Array.from(inputs.files).forEach(file => {
-            fileNames = [...fileNames, file.name]
-        })
+        const id = uuidv4()
+        if (inputs.files) {
+            Array.from(inputs.files).forEach(file => {
+                fileNames = [...fileNames, file.name]
+            })
+            addTodoFilesDB(id, inputs.files)
+        }
         const todo = {
-            id: uuidv4(),
             title: inputs.title,
             description: inputs.description,
             date: inputs.date,
             completed: false,
             files: fileNames
         }
-        addTodoDB(todo)
-        if (inputs.files) 
-            addTodoFilesDB(todo.id, inputs.files)
+        addTodoDB(id, todo, {merge: false}) 
         setTLength(TLength + 1)
         setInputs({date: dayjs().format('YYYY-MM-DDTHH:mm')})
         ref.current.value = ''

@@ -8,32 +8,55 @@
     min-width: 250px;
     max-width: 600px;
     margin: 0rem auto;
-    border: 1px solid #34750f;
+    border: 1px solid #020501;
   }
   
-.accordion-title {
+.accordion-title-true, 
+.accordion-title-false, 
+.accordion-buttons {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    cursor: pointer;
+}
+
+.accordion-title-true {
     background-color: #43ca21;
+}
+
+.accordion-title-false {
+    background-color: #ca2121;
+}
+
+.accordion-title-true, 
+.accordion-title-false {
+    cursor: pointer;
     font-size: 20px;
 }
-  
-.accordion-title:hover {
+
+.accordion-title-true:hover {
     background-color: #6fcc3a;
 }
-  
-.accordion-title,
-.accordion-content {
+
+.accordion-title-false:hover {
+    background-color: #cc3a3a;
+}
+
+.accordion-title-true,
+.accordion-title-false,
+.accordion-content-true,
+.accordion-content-false {
     padding: 1rem;
 }
   
-.accordion-content {
+.accordion-content-true {
     background-color: #58d239;
+}
+
+.accordion-content-false {
+    background-color: #d23939;
 }
 
 .description {
     font-size: 15px;
-    color: rgb(117, 117, 117);
+    color: rgb(37, 80, 223);
 }

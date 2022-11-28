@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app"
 import { getFirestore } from "firebase/firestore"
-import {getDocs, setDoc, doc, collection } from "firebase/firestore"
+import {getDocs, setDoc, doc, collection, deleteDoc, updateDoc} from "firebase/firestore"
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -23,13 +23,13 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app)
 const storage = getStorage()
 
-export const addTodoDB = async (todo) => 
-  await setDoc(doc(db, "Todo", todo.id), {title: todo.title,
-    description: todo.description,
-    date: todo.date,
-    completed: todo.completed,
-    files: todo.files
-  })
+export const addTodoDB = async (id, todo, merge) => {
+  await setDoc(doc(db, "Todo", id), todo, merge)
+}
+
+export const updateTodoDB = async (id, updateTodo) => {
+  await updateDoc(doc(db, "Todo", id), updateTodo)
+}
 
 export const addTodoFilesDB = (path, files) => {
   Array.from(files).forEach(file => {
@@ -38,14 +38,12 @@ export const addTodoFilesDB = (path, files) => {
   })
 }
 
-export const getTodoFilesDB = (path, files) => {
-  if (files)
-    files.forEach(file => {
-      getDownloadURL(ref(storage, path + "/" + file)).then((url) => {
-        const img = document.getElementById('img');
-        img.innerText += " " + url;
-      })
-    })
+export const getTodoFilesDB = (path, file, elementId) => {
+  getDownloadURL(ref(storage, path + "/" + file)).then((url) => {
+    const element = document.getElementById(elementId)
+    element.setAttribute('href', url)
+    element.innerText = file
+  })
 }
 
 export const getTodosDB = async () => {
@@ -62,4 +60,8 @@ export const getTodosDB = async () => {
     })
   })
   return todos
+}
+
+export const deleteTodoDB = (id) => {
+  deleteDoc(doc(db, "Todo", id));
 }

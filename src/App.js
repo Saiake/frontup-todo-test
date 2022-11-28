@@ -23,7 +23,9 @@ function App() {
             <ToDoForm TLength={TLength}
                         setTLength={setTLength}/>
             <ToDos toDo={toDo}
-                    setToDo={setToDo}/>
+                    setToDo={setToDo}
+                    TLength={TLength}
+                    setTLength={setTLength}/>
         </div>
     );
 }
